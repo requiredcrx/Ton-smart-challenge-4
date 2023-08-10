@@ -10,6 +10,30 @@
 }
 
 ;; testable
-(cell) find_branch_by_hash(int hash, cell tree) method_id {
-  return begin_cell().end_cell();
+func find_branch_by_hash(int hash, cell tree) cell {
+
+  if (is_null(tree)) {
+    return null(); 
+  }
+
+  let tree_hash = get_tree_hash(tree);
+
+  if (tree_hash == hash) {
+    return tree;
+  }
+
+  let left = get_left(tree);
+  let right = get_right(tree);
+
+  let left_result = find_branch_by_hash(hash, left);
+  if (!is_null(left_result)) {
+    return left_result;
+  }
+
+  let right_result = find_branch_by_hash(hash, right);
+  if (!is_null(right_result)) {
+    return right_result;
+  }
+
+  return null();
 }

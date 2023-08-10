@@ -18,10 +18,6 @@ func find_branch_by_hash(int hash, cell tree) cell {
 
   let tree_hash = get_tree_hash(tree);
 
-  if (tree_hash == hash) {
-    return tree;
-  }
-
   let left = get_left(tree);
   let right = get_right(tree);
 

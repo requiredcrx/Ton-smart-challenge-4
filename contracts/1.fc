@@ -1,9 +1,12 @@
 {-
-  TASK 1 - Find branch of the cell tree
-  Write the method that will find a branch of the tree by comparing its
-  hash with the hash received in the first parameter. When the algorithm finds
-  the subtree (branch) whose hash equals the received hash, the root cell of
-  this branch should be returned. Return empty cell if the branch is not found.
+
+TASK 1 - Find branch of the cell tree
+
+Write the method that will find a branch of the tree by comparing its
+hash with the hash received in the first parameter. When the algorithm finds
+the subtree (branch) whose hash equals the received hash, the root cell of 
+this branch should be returned. Return empty cell if the branch is not found.
+
 -}
 
 () recv_internal() {
@@ -12,28 +15,24 @@
 ;; testable
 func find_branch_by_hash(int hash, cell tree) cell {
 
+  var matchedCell = null();
+
   if (is_null(tree)) {
-    return null(); 
+    return matchedCell;
   }
 
-  let tree_hash = get_tree_hash(tree);
+  let treeHash = get_tree_hash(tree);
 
-  if (tree_hash == hash) {
-    return tree;
+  if (treeHash == hash) {
+    matchedCell = tree;
   }
 
   let left = get_left(tree);
-  let right = get_right(tree);
+  let right = get_right(tree);  
 
-  let left_result = find_branch_by_hash(hash, left);
-  if (!is_null(left_result)) {
-    return left_result;
-  }
+  find_branch_by_hash(hash, left);
+  find_branch_by_hash(hash, right);
 
-  let right_result = find_branch_by_hash(hash, right);
-  if (!is_null(right_result)) {
-    return right_result;
-  }
+  return matchedCell;
 
-  return null();
 }

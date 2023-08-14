@@ -10,30 +10,30 @@
 }
 
 ;; testable
-func find_branch_by_hash(int hash, cell tree) cell {
+(cell) find_branch_by_hash(int hash, cell tree) method_id {
+    if (cell_hash(tree) == hash) {
+        return tree;
+    }
 
-  if (is_null(tree)) {
-    return null(); 
-  }
+    int cellType = cell_type(tree);
+    if (cellType == 2) {
+        // Reached a leaf node without finding the hash
+        return null;
+    }
 
-  let tree_hash = get_tree_hash(tree);
+    int childrenCount = cell_data_size(tree);
+    cell leftChild = cell_data_tree(tree, 0);
+    cell rightChild = cell_data_tree(tree, 1);
 
-  if (tree_hash == hash) {
-    return tree;
-  }
+    cell leftResult = find_branch_by_hash(hash, leftChild);
+    if (!is_null(leftResult)) {
+        return leftResult;
+    }
 
-  let left = get_left(tree);
-  let right = get_right(tree);
+    cell rightResult = find_branch_by_hash(hash, rightChild);
+    if (!is_null(rightResult)) {
+        return rightResult;
+    }
 
-  let left_result = find_branch_by_hash(hash, left);
-  if (!is_null(left_result)) {
-    return left_result;
-  }
-
-  let right_result = find_branch_by_hash(hash, right);
-  if (!is_null(right_result)) {
-    return right_result;
-  }
-
-  return null();
+    return null;
 }
